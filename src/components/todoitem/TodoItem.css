@@ -1,7 +1,7 @@
 .TodoItem {
   width: 250px;
   padding: 5px 10px;
-  margin: 1rem;
+  margin: 0.3rem;
   text-align: left;
   background-color: #fff;
   border-radius: 3px;
@@ -11,8 +11,6 @@
   box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.3);
 
   /* Disable selecting text */
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
