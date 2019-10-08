@@ -6,6 +6,9 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <TodoTable title="In progress" />
+      <TodoTable title="In progress" />
+      <TodoTable title="In progress" />
+      <TodoTable title="In progress" />
     </div>
   );
 }
