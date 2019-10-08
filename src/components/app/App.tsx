@@ -1,13 +1,11 @@
 import React from 'react';
-import { AddTodo } from '../addtodo/AddTodo';
-import { TodoList } from '../todolist/TodoList';
+import { TodoTable } from '../todotable/TodoTable';
 import './App.css';
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <AddTodo />
-      <TodoList />
+      <TodoTable title="In progress" />
     </div>
   );
 }
