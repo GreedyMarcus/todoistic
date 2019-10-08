@@ -1,0 +1,50 @@
+.TodoItem {
+  width: 250px;
+  padding: 5px 10px;
+  margin: 1rem;
+  text-align: left;
+  background-color: #fff;
+  border-radius: 3px;
+
+  -webkit-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.3);
+  box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.3);
+
+  /* Disable selecting text */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.TodoItem:hover {
+  background-color: #eee;
+  cursor: pointer;
+}
+
+.TodoItem-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-block-start: 0.3em;
+  margin-block-end: 0.3em;
+}
+
+.TodoItem-description {
+  font-size: 15px;
+  color: #333;
+}
+
+.TodoItem-due {
+  font-size: 13px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #fcc603;
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+.TodoItem-postponed {
+  background-color: #fc4103;
+}
