@@ -1,0 +1,33 @@
+.AddTodo {
+  background-color: #fff;
+  display: flex;
+  width: 280px;
+  height: 80px;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+
+.AddTodo-input {
+  width: 240px;
+  padding: 6px 10px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.AddTodo-submit {
+  font-size: 16px;
+  font-weight: bold;
+  width: 260px;
+  background-color: #d9534f;
+  color: white;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.AddTodo-submit:hover {
+  background-color: #b9413d;
+}
