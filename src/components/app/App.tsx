@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Todo } from '../../models/todo';
 import { Status } from '../../models/status';
 import { TodoTable } from '../todotable/TodoTable';
+import { TodoItemEditor } from '../todoitemeditor/TodoItemEditor';
 import './App.css';
 
 interface State {
@@ -47,24 +49,31 @@ class App extends Component<{}, State> {
 
   render() {
     return (
-      <div className="App">
-        <TodoTable title="Todo"
-                   status={Status.Todo}
-                   todos={this.state.todos}
-                   addTodo={this.addTodo} />
-        <TodoTable title="In progress"
-                   status={Status.InProgress}
-                   todos={this.state.todos}
-                   addTodo={this.addTodo} />
-        <TodoTable title="Done"
-                   status={Status.Done}
-                   todos={this.state.todos}
-                   addTodo={this.addTodo} />
-        <TodoTable title="Postponed"
-                   status={Status.Postponed}
-                   todos={this.state.todos}
-                   addTodo={this.addTodo} />
-      </div>
+      <Router>
+        <div className="App">
+          <Route exact path="/" render={props => (
+            <React.Fragment>
+              <TodoTable title="Todo"
+                         status={Status.Todo}
+                         todos={this.state.todos}
+                         addTodo={this.addTodo} />
+              <TodoTable title="In progress"
+                         status={Status.InProgress}
+                         todos={this.state.todos}
+                         addTodo={this.addTodo} />
+              <TodoTable title="Done"
+                         status={Status.Done}
+                         todos={this.state.todos}
+                         addTodo={this.addTodo} />
+              <TodoTable title="Postponed"
+                         status={Status.Postponed}
+                         todos={this.state.todos}
+                         addTodo={this.addTodo} />
+            </React.Fragment>
+          )} />
+          <Route path="/todos/:id" component={TodoItemEditor} />
+        </div>
+      </Router>
     );
   }
 }
