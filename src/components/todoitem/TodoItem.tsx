@@ -22,18 +22,10 @@ export const TodoItem: React.FC<Props> = ({ title, description, due }) => {
 function isPostponed(date: Date) {
   const today = new Date();
   
-  if (date.getFullYear() < today.getFullYear()) {
+  if (date.getFullYear() <= today.getFullYear() &&
+      date.getMonth() <= today.getMonth() &&
+      date.getDate() < today.getDate()) {
     return true;
-  }
-  else {
-    if (date.getMonth() < today.getMonth()) {
-      return true;
-    }
-    else {
-      if (date.getDay() < today.getDay()) {
-        return true;
-      }
-    }
   }
   return false;
 }
