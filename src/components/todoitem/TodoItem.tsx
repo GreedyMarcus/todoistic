@@ -4,7 +4,7 @@ import './TodoItem.css';
 interface Props {
   title: string,
   description: string,
-  due?: Date
+  due: Date
 }
 
 export const TodoItem: React.FC<Props> = ({ title, description, due }) => {
@@ -12,12 +12,9 @@ export const TodoItem: React.FC<Props> = ({ title, description, due }) => {
     <div className="TodoItem">
       <h1 className="TodoItem-title">{ title }</h1>
       <div className="TodoItem-description">{ description }</div>
-      {
-        due &&
-        <span className={`TodoItem-due ${isPostponed(due) && 'TodoItem-postponed'}`}>
-          { due.toLocaleDateString() }
-        </span>
-      }
+      <span className={`TodoItem-due ${isPostponed(due) && 'TodoItem-postponed'}`}>
+        { due.toLocaleDateString() }
+      </span>
     </div>
   );
 }

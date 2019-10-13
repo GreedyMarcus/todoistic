@@ -1,25 +1,23 @@
 import React from 'react';
+import { Todo } from '../../models/todo';
 import { TodoItem } from '../todoitem/TodoItem';
 import './TodoList.css';
 
-export const TodoList: React.FC = () => {
+interface Props {
+  todos: Todo[];
+}
+
+export const TodoList: React.FC<Props> = ({ todos }) => {
   return (
     <div className="TodoList">
-      <TodoItem
-        title="Do shopping"
-        description="Buy milk, bread, cereal, butter and some vegies."
-        due={new Date(2019, 9, 8)}
-      />
-      <TodoItem
-        title="Do shopping"
-        description="Buy milk, bread, cereal, butter and some vegies."
-        due={new Date(2019, 9, 8)}
-      />
-      <TodoItem
-        title="Do shopping"
-        description="Buy milk, bread, cereal, butter and some vegies."
-        due={new Date(2019, 9, 8)}
-      />
+      {
+        todos.map(todo => (
+          <TodoItem key={todo.id}
+                    title={todo.title}
+                    description={todo.description}
+                    due={todo.due} />
+        ))
+      }
     </div>
   );
 }
