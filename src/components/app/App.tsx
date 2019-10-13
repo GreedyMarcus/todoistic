@@ -30,21 +30,40 @@ class App extends Component<{}, State> {
     ]
   }
 
+  addTodo = (title: string, status: Status) => {
+    const newTodo: Todo = {
+      id: this.state.todos.length + 1,
+      title: title,
+      description: "",
+      due: new Date(),
+      status: status,
+      priority: this.state.todos.filter(todo => todo.status === status).length + 1
+    }
+    
+    this.setState(state => ({
+      todos: [...state.todos, newTodo]
+    }));
+  }
+
   render() {
     return (
       <div className="App">
         <TodoTable title="Todo"
                    status={Status.Todo}
-                   todos={this.state.todos} />
+                   todos={this.state.todos}
+                   addTodo={this.addTodo} />
         <TodoTable title="In progress"
                    status={Status.InProgress}
-                   todos={this.state.todos} />
+                   todos={this.state.todos}
+                   addTodo={this.addTodo} />
         <TodoTable title="Done"
                    status={Status.Done}
-                   todos={this.state.todos} />
+                   todos={this.state.todos}
+                   addTodo={this.addTodo} />
         <TodoTable title="Postponed"
                    status={Status.Postponed}
-                   todos={this.state.todos} />
+                   todos={this.state.todos}
+                   addTodo={this.addTodo} />
       </div>
     );
   }
