@@ -1,7 +1,7 @@
 .TodoItem {
-  width: 250px;
+  width: 240px;
   padding: 5px 10px;
-  margin: 0.3rem;
+  margin: 0.5rem 0 0.1rem 0;
   text-align: left;
   background-color: #fff;
   border-radius: 3px;
@@ -23,6 +23,7 @@
 }
 
 .TodoItem-title {
+  color: #000;
   font-size: 16px;
   font-weight: bold;
   margin-block-start: 0.3em;
@@ -45,4 +46,8 @@
 
 .TodoItem-postponed {
   background-color: #fc4103;
+}
+
+.TodoItem-link {
+  text-decoration: none;
 }

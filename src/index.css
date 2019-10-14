@@ -14,17 +14,17 @@ code {
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
   background: #a2afc3;
-  border-radius: 10px;
+  border-radius: 6px;
 }
  
 ::-webkit-scrollbar-thumb {
   background: #8395af;
-  border-radius: 10px;
+  border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
