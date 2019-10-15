@@ -44,6 +44,9 @@ export class TodoItemEditor extends Component {
           </div>
           <button className="TodoItemEditor-delete">Delete Todo</button>
         </div>
+        <div className="centered">
+          <button className="TodoItemEditor-save">Save</button>
+        </div>
       </div>
     );
   }
