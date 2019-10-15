@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { EditableTitle } from './editabletitle/EditableTitle';
 import { EditableDescription } from './editabledescription/EditableDescription';
+import { Dropdown } from './dropdown/Dropdown';
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import './TodoItemEditor.css';
@@ -30,6 +31,10 @@ export class TodoItemEditor extends Component {
                     onChange={this.handleDateChange}
                     dateFormat="yyyy. MM. dd"
                     placeholderText="Click to select due date" />
+        <h3 className="TodoItemEditor-title">Status</h3>
+        <Dropdown options={["Todo", "In progress", "Done", "Postponed"]} defaultOption={"Todo"} />
+        <h3 className="TodoItemEditor-title">Priority</h3>
+        <Dropdown options={["1", "2", "3", "4"]} defaultOption={"1"} />
       </div>
     );
   }
