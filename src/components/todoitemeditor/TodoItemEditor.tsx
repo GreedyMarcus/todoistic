@@ -24,17 +24,26 @@ export class TodoItemEditor extends Component {
         </Link>
         <EditableTitle title="Do shopping" />
         <EditableDescription description="Buy milk, bread, cereal, butter and some vegies." />
-        <h3 className="TodoItemEditor-title">Due</h3>
-        <DatePicker className="TodoItemEditor-datepicker"
-                    isClearable
-                    selected={this.state.due}
-                    onChange={this.handleDateChange}
-                    dateFormat="yyyy. MM. dd"
-                    placeholderText="Click to select due date" />
-        <h3 className="TodoItemEditor-title">Status</h3>
-        <Dropdown options={["Todo", "In progress", "Done", "Postponed"]} defaultOption={"Todo"} />
-        <h3 className="TodoItemEditor-title">Priority</h3>
-        <Dropdown options={["1", "2", "3", "4"]} defaultOption={"1"} />
+        <div className="TodoItemEditor-grid-container">
+          <div>
+            <h3 className="TodoItemEditor-title">Due</h3>
+            <DatePicker className="TodoItemEditor-datepicker"
+                        isClearable
+                        selected={this.state.due}
+                        onChange={this.handleDateChange}
+                        dateFormat="yyyy. MM. dd"
+                        placeholderText="Click to select due date" />
+          </div>
+          <div>
+            <h3 className="TodoItemEditor-title">Status</h3>
+            <Dropdown options={["Todo", "In progress", "Done", "Postponed"]} defaultOption={"Todo"} />
+          </div>
+          <div>
+            <h3 className="TodoItemEditor-title">Priority</h3>
+            <Dropdown options={["1", "2", "3", "4"]} defaultOption={"1"} />
+          </div>
+          <button className="TodoItemEditor-delete">Delete Todo</button>
+        </div>
       </div>
     );
   }
