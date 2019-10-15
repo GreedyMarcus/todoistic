@@ -30,3 +30,19 @@
   text-decoration: none;
   cursor: pointer;
 }
+
+.TodoItemEditor-datepicker {
+  background-color: #f6f6f6;
+  margin: 0.5em 0;
+  padding: 0.6em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.TodoItemEditor-datepicker:hover {
+  background-color: #efefef;
+}
+
+.TodoItemEditor-title {
+  margin-block-end: 0.2em;
+}
