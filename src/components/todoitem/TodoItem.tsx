@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import './TodoItem.css';
 
 interface Props {
-  id: number,
-  title: string,
-  description: string,
-  due: Date
+  id: number;
+  title: string;
+  description: string;
+  due: Date;
 }
 
 export const TodoItem: React.FC<Props> = ({ id, title, description, due }) => {
@@ -25,11 +25,7 @@ export const TodoItem: React.FC<Props> = ({ id, title, description, due }) => {
 
 function isPostponed(date: Date) {
   const today = new Date();
-  
-  if (date.getFullYear() <= today.getFullYear() &&
-      date.getMonth() <= today.getMonth() &&
-      date.getDate() < today.getDate()) {
-    return true;
-  }
-  return false;
+  return date.getFullYear() <= today.getFullYear() &&
+         date.getMonth() <= today.getMonth() &&
+         date.getDate() < today.getDate();
 }
