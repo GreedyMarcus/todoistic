@@ -22,15 +22,13 @@ export class Dropdown extends Component<Props, State> {
   render() {
     return (
       <div>
-        <select className="Dropdown" onChange={this.handleChange}>
+        <select className="Dropdown"
+                defaultValue={this.props.defaultOption}
+                onChange={this.handleChange}>
           {
-            this.props.options.map(option => {
-              if (option === this.state.selected) {
-                return <option selected value={option}>{ option }</option>
-              } else {
-                return <option value={option}>{ option }</option>
-              }
-            })
+            this.props.options.map(option => (
+              <option key={option} value={option}>{ option }</option>
+            ))
           }
         </select>
       </div>
