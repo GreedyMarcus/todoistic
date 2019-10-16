@@ -53,6 +53,21 @@ class App extends Component<{}, State> {
       todos: [...state.todos, newTodo]
     }));
   }
+  
+  getTodoById(id: string) {
+    const todoId = parseInt(id);
+    const todo: Todo = this.state.todos[todoId-1];
+    return todo;
+  }
+
+  getPriorityOptions(id: string) {
+    const todoId = parseInt(id);
+    const priorityOptions: number[] = this.state.todos
+      .filter(todo => todo.status === this.state.todos[todoId-1].status)
+      .map(todo => todo.priority)
+      .sort();
+    return priorityOptions;
+  }
 
   render() {
     return (
@@ -78,7 +93,13 @@ class App extends Component<{}, State> {
                          addTodo={this.addTodo} />
             </React.Fragment>
           )} />
-          <Route path="/todos/:id" component={TodoItemEditor} />
+          {
+            this.state.todos[0] &&
+            <Route exact path="/todos/:id" render={props => (
+              <TodoItemEditor todo={this.getTodoById(props.match.params.id)}
+                              priorityOptions={this.getPriorityOptions(props.match.params.id)} />
+            )} />
+          }
         </div>
       </Router>
     );
