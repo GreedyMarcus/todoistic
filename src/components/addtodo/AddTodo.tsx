@@ -5,22 +5,26 @@ interface Props {
   addTodo: (title: string) => void;
 }
 
-export class AddTodo extends Component<Props, {}> {
-  state = {
-    title: ""
-  }
+interface State {
+  title: string;
+}
 
-  handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    
-    if (this.state.title !== '') {
-      this.props.addTodo(this.state.title);
-      this.setState({ title: '' });
-    }
+export class AddTodo extends Component<Props, State> {
+  state: State = {
+    title: ''
   }
 
   handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ title: e.target.value });
+  }
+
+  handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (this.state.title !== '') {
+      this.props.addTodo(this.state.title);
+      this.setState({ title: '' });
+    }
   }
   
   render() {
