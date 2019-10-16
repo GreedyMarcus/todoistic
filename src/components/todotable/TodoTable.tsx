@@ -22,7 +22,7 @@ export class TodoTable extends Component<Props, {}> {
       <div className="TodoTable">
         <h1 className="TodoTable-title">{ this.props.title }</h1>
         <AddTodo addTodo={this.addTodo}/>
-        <TodoList todos={this.props.todos.filter(todo => todo.status === this.props.status)} />
+        <TodoList todos={this.props.todos} />
       </div>
     );
   }

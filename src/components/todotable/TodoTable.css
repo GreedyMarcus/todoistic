@@ -1,11 +1,11 @@
 .TodoTable {
-  background-color: #bcc5d4;
   display: flex;
-  width: 280px;
-  height: 600px;
   justify-content: center;
   flex-wrap: wrap;
   align-content: flex-start;
+  width: 280px;
+  height: 600px;
+  background-color: #bcc5d4;
   border-radius: 5px;
   margin: 1rem;
 
