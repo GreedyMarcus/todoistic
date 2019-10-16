@@ -12,35 +12,42 @@ interface State {
 
 class App extends Component<{}, State> {
   state: State = {
-    todos: [
-      {
-        id: 1,
-        title: "Do shopping",
-        description: "Buy milk, bread, cereal, butter and some vegies.",
-        due: new Date(2019, 9, 12),
-        status: Status.Todo,
-        priority: 1
-      },
-      {
-        id: 2,
-        title: "Finish history assignment",
-        description: "Write an essay about Napoleon.",
-        due: new Date(2019, 9, 15),
-        status: Status.InProgress,
-        priority: 1
-      }
-    ]
+    todos: []
+  }
+
+  componentDidMount() {
+    fetch('https://my-json-server.typicode.com/GreedyMarcus/mock-backend/todos')
+      .then(response => response.json())
+      .then(data => {
+        const todos: Array<Todo> = data;
+        this.setState({ todos: todos });
+      });
   }
 
   addTodo = (title: string, status: Status) => {
+    // Init status can only be 'In progress' or 'Todo'
+    const initStatus = status === Status.InProgress ? Status.InProgress : Status.Todo;
+    
     const newTodo: Todo = {
       id: this.state.todos.length + 1,
       title: title,
       description: "",
       due: new Date(),
-      status: status,
-      priority: this.state.todos.filter(todo => todo.status === status).length + 1
+      status: initStatus,
+      priority: this.state.todos.filter(todo => todo.status === initStatus).length + 1
     }
+
+    // Create resource
+    fetch('https://my-json-server.typicode.com/GreedyMarcus/mock-backend/todos', {
+        method: 'POST',
+        body: JSON.stringify(newTodo),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        }
+      })
+      .then(response => response.json())
+      .then(json => console.log(json));
+
     
     this.setState(state => ({
       todos: [...state.todos, newTodo]
@@ -55,19 +62,19 @@ class App extends Component<{}, State> {
             <React.Fragment>
               <TodoTable title="Todo"
                          status={Status.Todo}
-                         todos={this.state.todos}
+                         todos={this.state.todos.filter(todo => todo.status === Status.Todo)}
                          addTodo={this.addTodo} />
               <TodoTable title="In progress"
                          status={Status.InProgress}
-                         todos={this.state.todos}
+                         todos={this.state.todos.filter(todo => todo.status === Status.InProgress)}
                          addTodo={this.addTodo} />
               <TodoTable title="Done"
                          status={Status.Done}
-                         todos={this.state.todos}
+                         todos={this.state.todos.filter(todo => todo.status === Status.Done)}
                          addTodo={this.addTodo} />
               <TodoTable title="Postponed"
                          status={Status.Postponed}
-                         todos={this.state.todos}
+                         todos={this.state.todos.filter(todo => todo.status === Status.Postponed)}
                          addTodo={this.addTodo} />
             </React.Fragment>
           )} />
