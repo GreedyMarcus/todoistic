@@ -21,11 +21,23 @@ export class TodoItemEditor extends Component<Props, State> {
   state: State = {
     todo: this.props.todo
   };
+
+  handleTitleChange = (title: string) => {
+    const todo = this.state.todo;
+    todo.title = title;
+    this.setState({ todo: todo });
+  }
+
+  handleDescriptionChange = (description: string) => {
+    const todo = this.state.todo;
+    todo.description = description;
+    this.setState({ todo: todo });
+  }
   
   handleDateChange = (date: Date) => {
     const todo = this.state.todo;
     todo.due = new Date(date);
-    this.setState({ todo: todo});
+    this.setState({ todo: todo });
   };
 
   render() {
@@ -37,8 +49,10 @@ export class TodoItemEditor extends Component<Props, State> {
         <Link className="TodoItemEditor-link" to="/">
           <span className="TodoItemEditor-close">&times;</span>
         </Link>
-        <EditableTitle title={this.state.todo.title} />
-        <EditableDescription description={this.state.todo.description} />
+        <EditableTitle title={this.state.todo.title}
+                       changeTitle={this.handleTitleChange} />
+        <EditableDescription description={this.state.todo.description}
+                             changeDescription={this.handleDescriptionChange} />
         <div className="TodoItemEditor-grid-container">
           <div>
             <h3 className="TodoItemEditor-title">Due</h3>

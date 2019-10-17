@@ -3,6 +3,7 @@ import './EditableTitle.css';
 
 interface Props {
   title: string;
+  changeTitle: (title: string) => void;
 }
 
 interface State {
@@ -10,15 +11,15 @@ interface State {
 }
 
 export class EditableTitle extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      title: this.props.title
-    }
-    this.handleClick = this.handleClick.bind(this);
+  state: State = {
+    title: this.props.title
+  }
+
+  handleChange = (title: string) => {
+    this.props.changeTitle(title);
   }
   
-  handleClick() {
+  handleClick = () => {
     const titleText = document.querySelector('.EditableTitle');
     
     const titleInput = document.createElement('input');
@@ -34,6 +35,7 @@ export class EditableTitle extends Component<Props, State> {
           const modifiedTitle = titleInput.value;
           if (modifiedTitle !== '') {
             this.setState({ title: modifiedTitle });
+            this.handleChange(this.state.title);
           }
           titleInput.parentNode.replaceChild(titleText, titleInput);
         }

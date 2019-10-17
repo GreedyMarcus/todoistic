@@ -3,6 +3,7 @@ import './EditableDescription.css';
 
 interface Props {
   description: string;
+  changeDescription: (description: string) => void;
 }
 
 interface State {
@@ -10,15 +11,15 @@ interface State {
 }
 
 export class EditableDescription extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      description: this.props.description
-    }
-    this.handleClick = this.handleClick.bind(this);
+  state: State = {
+    description: this.props.description
+  }
+
+  handleChange = (description: string) => {
+    this.props.changeDescription(description);
   }
   
-  handleClick() {
+  handleClick = () => {
     const placeholder = "Add description for this todo...";
     const descriptionText = document.querySelector('.EditableDescription-content');
 
@@ -41,8 +42,10 @@ export class EditableDescription extends Component<Props, State> {
           const modifiedDescription = descriptionTextarea.value;
           if (modifiedDescription === '') {
             this.setState({ description: placeholder });
+            this.handleChange('');
           } else {
             this.setState({ description: modifiedDescription});
+            this.handleChange(this.state.description);
           }
           descriptionTextarea.parentNode.replaceChild(descriptionText, descriptionTextarea);
         }
@@ -56,7 +59,10 @@ export class EditableDescription extends Component<Props, State> {
         <h3 className="EditableDescription-header">Description</h3>
         <div className="EditableDescription-content"
              onClick={this.handleClick}
-             data-editable>{ this.state.description }</div>
+             data-editable>{
+               this.state.description === '' ?
+                  "Add description for this todo..." :
+                  this.state.description}</div>
       </div>
     );
   }
