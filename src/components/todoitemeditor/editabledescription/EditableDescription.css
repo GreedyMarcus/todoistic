@@ -1,31 +1,36 @@
 .EditableDescription {
   padding: 0.5em;
+  margin: 0.5em 0;
   background-color: #f6f6f6;
   border-radius: 4px;
 }
 
-.EditableDescription:hover {
-  background-color: #efefef;
-}
-
-.EditableDescription-header {
+.EditableDescription-label {
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
   margin-block-start: 0;
   margin-block-end: 0.5em;
 }
 
 .EditableDescription-content {
+  min-width: 650px;
+  max-width: 650px;
+  min-height: 30px;
+  max-height: 100px;
+  font-family: 'Segoe UI';
+  font-size: 18px;
+  background-color: #f6f6f6;
   color: #333;
-  padding: 6px 0;
-  margin: 0.5em 3em 0.5em 0;
-}
-
-.EditableDescription-textarea {
-  width: 650px;
-  height: 80px;
-  font-size: 16px;
-  padding: 6px 0 0 0;
-  margin-block-end: 0.9em;
-  border: 1px solid #ccc;
+  padding: 6px;
+  margin-block-end: 0.2em;
+  border: 1px solid #f6f6f6;
   border-radius: 4px;
   resize: none;
+}
+
+.EditableDescription-content:focus {
+  background-color: #fff;
+  color: #000;
+  resize: vertical;
 }

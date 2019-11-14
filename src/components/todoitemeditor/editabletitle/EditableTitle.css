@@ -1,17 +1,19 @@
 .EditableTitle {
+  width: 650px;
   font-size: 24px;
   font-weight: bold;
-  padding: 6px 0;
+  padding: 6px 0 2px 0;
   margin-block-start: 0.5em;
-  margin-block-end: 0.5em;
+  margin-block-end: 0.2em;
+  border: none;
+  border-bottom: 1px solid #fff;
 }
 
-.EditableTitle-input {
-  font-size: 24px;
-  font-weight: bold;
-  padding: 6px 0 0 0;
-  margin-block-start: 0.5em;
-  margin-block-end: 0.9em;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.EditableTitle:focus {
+  outline: none;
+  border-bottom: 1px solid #b5b5b5;
+}
+
+.EditableTitle-empty {
+  border-bottom: 1px solid #ff4545;
 }

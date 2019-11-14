@@ -7,4 +7,5 @@ export interface Todo {
   due: Date;
   status: Status;
   priority: number;
+  priorityMax?: number;
 }

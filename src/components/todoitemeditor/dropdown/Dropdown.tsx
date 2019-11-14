@@ -1,39 +1,29 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './Dropdown.css';
 
 interface Props {
+  label: string;
   options: string[];
   defaultOption: string;
+  handleChange: (e: React.ChangeEvent<HTMLSelectElement>) =>void;
+  disabled?: boolean;
 }
 
-interface State {
-  selected: string;
+export const Dropdown: React.FC<Props> = ({ label, options, defaultOption, handleChange, disabled }) => {
+  return (
+    <div>
+      <label className="Dropdown-label" htmlFor="dropdown">{ label }</label>
+      <select className="Dropdown"
+              id="dropdown"
+              disabled={disabled}
+              defaultValue={defaultOption}
+              onChange={handleChange}>
+        {
+          options.map(option => (
+            <option key={option} value={option}>{ option }</option>
+          ))
+        }
+      </select>
+    </div>
+  );
 }
-
-export class Dropdown extends Component<Props, State> {
-  state: State = {
-    selected: this.props.defaultOption
-  }
-
-  handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    this.setState({ selected: e.target.value });
-  }
-  
-  render() {
-    return (
-      <div>
-        <select className="Dropdown"
-                defaultValue={this.props.defaultOption}
-                onChange={this.handleChange}>
-          {
-            this.props.options.map(option => (
-              <option key={option} value={option}>{ option }</option>
-            ))
-          }
-        </select>
-      </div>
-    );
-  }
-}
-
-export default Dropdown;

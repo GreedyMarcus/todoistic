@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { Status } from '../../models/status';
 import './AddTodo.css';
 
 interface Props {
-  addTodo: (title: string) => void;
+  todoStatus: Status;
+  addTodo: (title: string, status: Status) => void;
 }
 
 interface State {
@@ -22,7 +24,7 @@ export class AddTodo extends Component<Props, State> {
     e.preventDefault();
 
     if (this.state.title !== '') {
-      this.props.addTodo(this.state.title);
+      this.props.addTodo(this.state.title, this.props.todoStatus);
       this.setState({ title: '' });
     }
   }
@@ -31,14 +33,10 @@ export class AddTodo extends Component<Props, State> {
     return (
       <div className="AddTodo">
         <form onSubmit={this.handleSubmit}>
-          <input className="AddTodo-input"
-                 type="text"
-                 placeholder="What's your task?"
+          <input className="AddTodo-input" type="text" placeholder="What's your task?"
                  value={this.state.title}
                  onChange={this.handleChange} />
-          <input className="AddTodo-submit"
-                 type="submit"
-                 value="Add Todo" />
+          <input className="AddTodo-submit" type="submit" value="Add Todo" />
         </form>
       </div>
     );
