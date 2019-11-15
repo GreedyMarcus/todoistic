@@ -14,10 +14,9 @@ export class HomeBoard extends Component<{}, State> {
   }
 
   componentDidMount() {
-    fetch('https://my-json-server.typicode.com/GreedyMarcus/mock-backend/todos')
+    fetch('https://localhost:44334/api/Todos')
       .then(response => response.json())
       .then(data => {
-        // Convert raw data to Todo Array type
         const fetchedTodos: Todo[] = data;
         this.setState({ todos: fetchedTodos });
       })
@@ -28,16 +27,18 @@ export class HomeBoard extends Component<{}, State> {
   }
 
   addTodo = (title: string, status: Status) => {    
+    const priority: number = this.state.todos.filter(todo => todo.status === status).length + 1;
+    
     const requestBody = {
       title: title,
       description: "",
       due: new Date(),
       status: status,
-      priority: this.state.todos.filter(todo => todo.status === status).length + 1
+      priority: priority,
+      priorityMax: priority
     }
 
-    // Create resource
-    fetch('https://my-json-server.typicode.com/GreedyMarcus/mock-backend/todos', {
+    fetch('https://localhost:44334/api/Todos', {
         method: 'POST',
         body: JSON.stringify(requestBody),
         headers: {
@@ -46,7 +47,6 @@ export class HomeBoard extends Component<{}, State> {
       })
       .then(response => response.json())
       .then(data => {
-        // Convert raw data to Todo type
         const newTodo: Todo = data;
         this.setState(state => ({
           todos: [...state.todos, newTodo]

@@ -29,13 +29,10 @@ export class TodoItemEditor extends Component<RouteComponentProps<any>, State> {
   }
 
   componentDidMount() {
-    const id = this.props.match.params.id;
-    fetch(`https://my-json-server.typicode.com/GreedyMarcus/mock-backend/todos/${id}`)
+    fetch(`https://localhost:44334/api/Todos/${this.props.match.params.id}`)
       .then(response => response.json())
       .then(data => {
-        // Convert raw data to Todo type
         const fetchedTodo: Todo = data;
-        fetchedTodo.priorityMax = 4;
         this.setState({
           todo: fetchedTodo,
           defaultTodoPriority: fetchedTodo.priority,
@@ -100,18 +97,14 @@ export class TodoItemEditor extends Component<RouteComponentProps<any>, State> {
   handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Update specific resource
-    fetch(`https://my-json-server.typicode.com/GreedyMarcus/mock-backend/todos/${this.state.todo.id}`, {
+    fetch(`https://localhost:44334/api/Todos/${this.state.todo.id}`, {
         method: 'PUT',
         body: JSON.stringify(this.state.todo),
         headers: {
           "Content-type": "application/json; charset=UTF-8"
         }
       })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-
+      .then(() => {
         // Redirect to HomeBoard
         this.props.history.push('/');
       })
@@ -124,20 +117,16 @@ export class TodoItemEditor extends Component<RouteComponentProps<any>, State> {
   handleDeleteClick = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
 
-    // Delete resource
-    fetch('https://jsonplaceholder.typicode.com/posts/1', {
+    fetch(`https://localhost:44334/api/Todos/${this.state.todo.id}`, {
         method: 'DELETE'
       })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-
+      .then(() => {
         // Redirect to HomeBoard
         this.props.history.push('/');
       })
       .catch(error => {
         // TODO: handle error
-        console.log("TodoItemEditor couldn't update data: ", error);
+        console.log("TodoItemEditor couldn't delete data: ", error);
       });
   }
 
