@@ -14,7 +14,7 @@ export class HomeBoard extends Component<{}, State> {
   }
 
   componentDidMount() {
-    fetch('https://localhost:44334/api/Todos')
+    fetch('http://localhost:62093/api/Todos')
       .then(response => response.json())
       .then(data => {
         const fetchedTodos: Todo[] = data;
@@ -27,18 +27,17 @@ export class HomeBoard extends Component<{}, State> {
   }
 
   addTodo = (title: string, status: Status) => {    
-    const priority: number = this.state.todos.filter(todo => todo.status === status).length + 1;
+    const priority: number = this.state.todos.filter(todo => todo.statusID === status).length + 1;
     
     const requestBody = {
       title: title,
       description: "",
       due: new Date(),
-      status: status,
-      priority: priority,
-      priorityMax: priority
+      statusID: status,
+      priority: priority
     }
 
-    fetch('https://localhost:44334/api/Todos', {
+    fetch('http://localhost:62093/api/Todos', {
         method: 'POST',
         body: JSON.stringify(requestBody),
         headers: {
@@ -63,19 +62,19 @@ export class HomeBoard extends Component<{}, State> {
       <div className="HomeBoard">
         <TodoTable title="Todo"
                    status={Status.Todo}
-                   todos={this.state.todos.filter(todo => todo.status === Status.Todo)}
+                   todos={this.state.todos.filter(todo => todo.statusID === Status.Todo)}
                    addTodo={this.addTodo} />
         <TodoTable title="In progress"
                    status={Status.InProgress}
-                   todos={this.state.todos.filter(todo => todo.status === Status.InProgress)}
+                   todos={this.state.todos.filter(todo => todo.statusID === Status.InProgress)}
                    addTodo={this.addTodo} />
         <TodoTable title="Done"
                    status={Status.Done}
-                   todos={this.state.todos.filter(todo => todo.status === Status.Done)}
+                   todos={this.state.todos.filter(todo => todo.statusID === Status.Done)}
                    addTodo={this.addTodo} />
         <TodoTable title="Postponed"
                    status={Status.Postponed}
-                   todos={this.state.todos.filter(todo => todo.status === Status.Postponed)}
+                   todos={this.state.todos.filter(todo => todo.statusID === Status.Postponed)}
                    addTodo={this.addTodo} />
       </div>
     );

@@ -10,13 +10,23 @@ interface Props {
 export const TodoList: React.FC<Props> = ({ todos }) => {
   return (
     <div className="TodoList">
-      {todos.map(todo => (
-        <TodoItem key={todo.id}
-                  id={todo.id}
+      {todos.sort(compareTodosPriority).map(todo => (
+        <TodoItem key={todo.todoItemID}
+                  id={todo.todoItemID}
                   title={todo.title}
                   description={todo.description}
                   due={new Date(todo.due)} />
       ))}
     </div>
   );
+}
+
+function compareTodosPriority(first: Todo, second: Todo) {
+  if (first.priority < second.priority) {
+    return -1;
+  }
+  if (first.priority > second.priority) {
+    return 1;
+  }
+  return 0;
 }
