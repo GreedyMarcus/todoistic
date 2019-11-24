@@ -28,15 +28,13 @@ export class HomeBoard extends Component<{}, State> {
   }
 
   addTodo = async (title: string, status: Status) => {    
-    const priority: number = this.state.todos.filter(todo => todo.statusID === status).length + 1;
-    
     const newTodo: Todo = {
       todoItemID: 0,
       title: title,
       description: "",
       due: new Date(),
       statusID: status,
-      priority: priority
+      priority: this.state.todos.filter(todo => todo.statusID === status).length + 1
     }
 
     const response: ServiceResponse<Todo> = await postTodo(newTodo);
@@ -57,23 +55,25 @@ export class HomeBoard extends Component<{}, State> {
       return (<div>Loading...</div>);
     }
     else {
+      const { todos } = this.state;
+
       return (
         <div className="HomeBoard">
           <TodoTable title="Todo"
                      status={Status.Todo}
-                     todos={this.state.todos.filter(todo => todo.statusID === Status.Todo)}
+                     todos={todos.filter(todo => todo.statusID === Status.Todo)}
                      addTodo={this.addTodo} />
           <TodoTable title="In progress"
                      status={Status.InProgress}
-                     todos={this.state.todos.filter(todo => todo.statusID === Status.InProgress)}
+                     todos={todos.filter(todo => todo.statusID === Status.InProgress)}
                      addTodo={this.addTodo} />
           <TodoTable title="Done"
                      status={Status.Done}
-                     todos={this.state.todos.filter(todo => todo.statusID === Status.Done)}
+                     todos={todos.filter(todo => todo.statusID === Status.Done)}
                      addTodo={this.addTodo} />
           <TodoTable title="Postponed"
                      status={Status.Postponed}
-                     todos={this.state.todos.filter(todo => todo.statusID === Status.Postponed)}
+                     todos={todos.filter(todo => todo.statusID === Status.Postponed)}
                      addTodo={this.addTodo} />
         </div>
       );

@@ -75,20 +75,13 @@ export class TodoItemEditor extends Component<RouteComponentProps<any>, State> {
 
   handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newTodo: Todo = { ...this.state.todo };
-    switch (e.target.value) {
-      case 'Todo':
-          newTodo.statusID = 0;
-          break;
-      case 'In progress':
-          newTodo.statusID = 1;
-          break;
-      case 'Done':
-          newTodo.statusID = 2;
-          break;
-      case 'Postponed':
-          newTodo.statusID = 3;
-          break;
+    
+    for (let i = 0; i < this.state.statusOptions.length; i++) {
+      if (this.state.statusOptions[i].title === e.target.value) {
+        newTodo.statusID = i;
+      }
     }
+    
     this.setState({ todo: newTodo });
   }
 
@@ -103,14 +96,18 @@ export class TodoItemEditor extends Component<RouteComponentProps<any>, State> {
     e.preventDefault();
 
     const todo: Todo = { ...this.state.todo };
-    const response: ServiceResponse<Todo> = await updateTodo(todo);
 
-    if (response.error) {
-      this.setState({ error: response.error });
-    }
-    else {
-      // Redirect to HomeBoard
-      this.props.history.push('/');
+    // Empty title is not allowed
+    if (todo.title !== '') {
+      const response: ServiceResponse<Todo> = await updateTodo(todo);
+
+      if (response.error) {
+        this.setState({ error: response.error });
+      }
+      else {
+        // Redirect to HomeBoard
+        this.props.history.push('/');
+      }
     }
   }
 
@@ -139,37 +136,37 @@ export class TodoItemEditor extends Component<RouteComponentProps<any>, State> {
       return (<div>Loading...</div>);
     }
     else {
+      const { todo, statusOptions, initialStatus } = this.state;
+
       return (
         <div className="TodoItemEditor">
-          {this.state.statusOptions.length > 0 &&
-            <React.Fragment>
-              <Link className="TodoItemEditor-link" to="/">
-                <span className="TodoItemEditor-close">&times;</span>
-              </Link>
-              <form onSubmit={this.handleSubmit}>
-                <EditableTitle title={this.state.todo.title}
-                              handleChange={this.handleTitleChange} />
-                <EditableDescription description={this.state.todo.description}
-                                    handleChange={this.handleDescriptionChange} />
-                <div className="TodoItemEditor-container">
-                  <DuePicker due={this.state.todo.due}
-                            handleChange={this.handleDateChange} />
-                  <Dropdown label="Status"
-                            options={this.state.statusOptions.map(status => status.title)}
-                            defaultOption={this.state.statusOptions[this.state.todo.statusID].title}
-                            handleChange={this.handleStatusChange} />
-                  <Dropdown label="Priority"
-                            options={range(1, this.state.statusOptions[this.state.todo.statusID].todosNumber, this.state.initialStatus !== this.state.todo.statusID)}
-                            defaultOption={this.state.todo.priority.toString()}
-                            handleChange={this.handlePriorityChange} />
-                  <button className="TodoItemEditor-delete" onClick={this.handleDeleteClick}>Delete Todo</button>
-                </div>
-                <div className="centered">
-                  <button type="submit" className="TodoItemEditor-save">Save</button>
-                </div>
-              </form>
-            </React.Fragment>
-          }
+          <React.Fragment>
+            <Link className="TodoItemEditor-link" to="/">
+              <span className="TodoItemEditor-close">&times;</span>
+            </Link>
+            <form onSubmit={this.handleSubmit}>
+              <EditableTitle title={todo.title}
+                            handleChange={this.handleTitleChange} />
+              <EditableDescription description={todo.description}
+                                  handleChange={this.handleDescriptionChange} />
+              <div className="TodoItemEditor-container">
+                <DuePicker due={todo.due}
+                          handleChange={this.handleDateChange} />
+                <Dropdown label="Status"
+                          options={statusOptions.map(status => status.title)}
+                          defaultOption={statusOptions[todo.statusID].title}
+                          handleChange={this.handleStatusChange} />
+                <Dropdown label="Priority"
+                          options={range(1, statusOptions[todo.statusID].todosNumber, initialStatus !== todo.statusID)}
+                          defaultOption={todo.priority.toString()}
+                          handleChange={this.handlePriorityChange} />
+                <button className="TodoItemEditor-delete" onClick={this.handleDeleteClick}>Delete Todo</button>
+              </div>
+              <div className="centered">
+                <button type="submit" className="TodoItemEditor-save">Save</button>
+              </div>
+            </form>
+          </React.Fragment>
         </div>
       );
     }

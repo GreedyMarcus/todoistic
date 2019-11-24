@@ -15,7 +15,7 @@ interface Props {
 export const TodoTable: React.FC<Props> = ({ title, status, todos, addTodo }) => {
   return (
     <div className="TodoTable">
-      <h1 className="TodoTable-title">{ title }</h1>
+      <h1 className="TodoTable-title">{title}</h1>
       <AddTodo todoStatus={status} addTodo={addTodo} />
       <TodoList todos={todos} />
     </div>
