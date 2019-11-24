@@ -2,68 +2,52 @@ import React, { Component } from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { Todo } from '../../models/todo';
 import { Status } from '../../models/status';
+import { StatusDTO } from '../../models/statusDTO';
 import { EditableTitle } from './editabletitle/EditableTitle';
 import { EditableDescription } from './editabledescription/EditableDescription';
 import { DuePicker } from './duepicker/DuePicker';
 import { Dropdown } from './dropdown/Dropdown';
+import { ServiceResponse, fetchSingleTodo, updateTodo, deleteTodo, fetchStatus } from '../../services/apiService';
 import './TodoItemEditor.css';
-
-interface StatusDTO {
-  statusID: number;
-  title: string;
-  todosNumber: number;
-}
 
 interface State {
   todo: Todo;
   initialPriority: number;
   initialStatus: Status;
   statusOptions: StatusDTO[];
+  isLoading: boolean;
+  error?: Error;
 }
 
 export class TodoItemEditor extends Component<RouteComponentProps<any>, State> {
   state: State = {
     todo: {
       todoItemID: 0,
-      title: "Fetching todo...",
+      title: "",
       description: "",
       due: new Date(),
-      statusID: Status.Todo,
+      statusID: 0,
       priority: 1
     },
     initialPriority: 1,
     initialStatus: Status.Todo,
-    statusOptions: []
+    statusOptions: [],
+    isLoading: true
   }
 
-  componentDidMount() {
-    fetch(`http://localhost:62093/api/Todos/${this.props.match.params.id}`)
-      .then(response => response.json())
-      .then(data => {
-        const fetchedTodo: Todo = data;
-        this.setState({
-          todo: fetchedTodo,
-          initialPriority: fetchedTodo.priority,
-          initialStatus: fetchedTodo.statusID,
-        });
-      })
-      .catch(error => {
-        // TODO: handle error
-        console.log("TodoItemEditor couldn't fetch todo data: ", error);
-      });
+  async componentDidMount() {
+    const todoId = this.props.match.params.id;
+    const todoResponse: ServiceResponse<Todo> = await fetchSingleTodo(todoId);
+    const statusResponse: ServiceResponse<StatusDTO[]> = await fetchStatus();
 
-    fetch('http://localhost:62093/api/Status')
-      .then(response => response.json())
-      .then(data => {
-        const fetchedStatus: StatusDTO[] = data;
-        this.setState({
-          statusOptions: fetchedStatus
-        });
-      })
-      .catch(error => {
-        // TODO: handle error
-        console.log("TodoItemEditor couldn't fetch status data: ", error);
-      });
+    this.setState({
+      todo: todoResponse.data,
+      initialPriority: todoResponse.data.priority,
+      initialStatus: todoResponse.data.statusID,
+      statusOptions: statusResponse.data,
+      isLoading: false,
+      error: todoResponse.error ? todoResponse.error : statusResponse.error
+    });
   }
 
   handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,76 +99,80 @@ export class TodoItemEditor extends Component<RouteComponentProps<any>, State> {
     this.setState({ todo: newTodo });
   }
 
-  handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    fetch(`http://localhost:62093/api/Todos/${this.state.todo.todoItemID}`, {
-        method: 'PUT',
-        body: JSON.stringify(this.state.todo),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
-      })
-      .then(() => {
-        // Redirect to HomeBoard
-        this.props.history.push('/');
-      })
-      .catch(error => {
-        // TODO: handle error
-        console.log("TodoItemEditor couldn't update data: ", error);
-      });
+    const todo: Todo = { ...this.state.todo };
+    const response: ServiceResponse<Todo> = await updateTodo(todo);
+
+    if (response.error) {
+      this.setState({ error: response.error });
+    }
+    else {
+      // Redirect to HomeBoard
+      this.props.history.push('/');
+    }
   }
 
-  handleDeleteClick = (e: React.MouseEvent<HTMLElement>) => {
+  handleDeleteClick = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
 
-    fetch(`http://localhost:62093/api/Todos/${this.state.todo.todoItemID}`, {
-        method: 'DELETE'
-      })
-      .then(() => {
-        // Redirect to HomeBoard
-        this.props.history.push('/');
-      })
-      .catch(error => {
-        // TODO: handle error
-        console.log("TodoItemEditor couldn't delete data: ", error);
-      });
+    const todo = { ...this.state.todo };
+    const response: ServiceResponse<{}> = await deleteTodo(todo.todoItemID);
+
+    if (response.error) {
+      this.setState({ error: response.error });
+    }
+    else {
+      // Redirect to HomeBoard}
+      this.props.history.push('/');
+    }
   }
 
   render() {
-    return (
-      <div className="TodoItemEditor">
-        {this.state.statusOptions.length > 0 &&
-          <React.Fragment>
-            <Link className="TodoItemEditor-link" to="/">
-              <span className="TodoItemEditor-close">&times;</span>
-            </Link>
-            <form onSubmit={this.handleSubmit}>
-              <EditableTitle title={this.state.todo.title}
-                            handleChange={this.handleTitleChange} />
-              <EditableDescription description={this.state.todo.description}
-                                  handleChange={this.handleDescriptionChange} />
-              <div className="TodoItemEditor-container">
-                <DuePicker due={this.state.todo.due}
-                          handleChange={this.handleDateChange} />
-                <Dropdown label="Status"
-                          options={this.state.statusOptions.map(status => status.title)}
-                          defaultOption={this.state.statusOptions[this.state.todo.statusID].title}
-                          handleChange={this.handleStatusChange} />
-                <Dropdown label="Priority"
-                          options={range(1, this.state.statusOptions[this.state.todo.statusID].todosNumber, this.state.initialStatus !== this.state.todo.statusID)}
-                          defaultOption={this.state.todo.priority.toString()}
-                          handleChange={this.handlePriorityChange} />
-                <button className="TodoItemEditor-delete" onClick={this.handleDeleteClick}>Delete Todo</button>
-              </div>
-              <div className="centered">
-                <button type="submit" className="TodoItemEditor-save">Save</button>
-              </div>
-            </form>
-          </React.Fragment>
-        }
-      </div>
-    );
+    if (this.state.error) {
+      // TODO: Display nicer error messages
+      return (<div>Error: {this.state.error.message}</div>);
+    }
+    else if (this.state.isLoading) {
+      // TODO: Dispaly some kind of spinner
+      return (<div>Loading...</div>);
+    }
+    else {
+      return (
+        <div className="TodoItemEditor">
+          {this.state.statusOptions.length > 0 &&
+            <React.Fragment>
+              <Link className="TodoItemEditor-link" to="/">
+                <span className="TodoItemEditor-close">&times;</span>
+              </Link>
+              <form onSubmit={this.handleSubmit}>
+                <EditableTitle title={this.state.todo.title}
+                              handleChange={this.handleTitleChange} />
+                <EditableDescription description={this.state.todo.description}
+                                    handleChange={this.handleDescriptionChange} />
+                <div className="TodoItemEditor-container">
+                  <DuePicker due={this.state.todo.due}
+                            handleChange={this.handleDateChange} />
+                  <Dropdown label="Status"
+                            options={this.state.statusOptions.map(status => status.title)}
+                            defaultOption={this.state.statusOptions[this.state.todo.statusID].title}
+                            handleChange={this.handleStatusChange} />
+                  <Dropdown label="Priority"
+                            options={range(1, this.state.statusOptions[this.state.todo.statusID].todosNumber, this.state.initialStatus !== this.state.todo.statusID)}
+                            defaultOption={this.state.todo.priority.toString()}
+                            handleChange={this.handlePriorityChange} />
+                  <button className="TodoItemEditor-delete" onClick={this.handleDeleteClick}>Delete Todo</button>
+                </div>
+                <div className="centered">
+                  <button type="submit" className="TodoItemEditor-save">Save</button>
+                </div>
+              </form>
+            </React.Fragment>
+          }
+        </div>
+      );
+    }
   }
 }
 
@@ -195,7 +183,6 @@ function range(start: number, end: number, needPlusOne: boolean) {
   }
   else {
     const extra = needPlusOne ? 1 : 0;
-    console.log(extra);
     for (let i = start; i <= end + extra; i++) {
       rangeArr.push(i.toString());
     }

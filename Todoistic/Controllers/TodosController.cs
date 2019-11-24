@@ -8,8 +8,10 @@ using Todoistic.Models;
 
 namespace Todoistic.Controllers
 {
-    [Route("api/[controller]")]
+
     [ApiController]
+    [Route("api/[controller]")]
+    [Produces("application/json")]
     public class TodosController : ControllerBase
     {
         private readonly TodoisticDbContext context;
@@ -148,7 +150,7 @@ namespace Todoistic.Controllers
             context.Entry(item).State = EntityState.Modified;
             await context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok(item);
         }
 
         // DELETE api/Todos/5
@@ -179,7 +181,7 @@ namespace Todoistic.Controllers
             context.TodoItems.Remove(todoItem);
             await context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
     }
 }

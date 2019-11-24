@@ -7,8 +7,9 @@ using Todoistic.Data;
 
 namespace Todoistic.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
+    [Produces("application/json")]
     public class StatusController : Controller
     {
         private readonly TodoisticDbContext context;
