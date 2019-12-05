@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Todoistic.Data;
+using Todoistic.Services.StatusService;
+using Todoistic.Services.TodoService;
 
 namespace Todoistic
 {
@@ -24,6 +26,9 @@ namespace Todoistic
         {
             services.AddDbContext<TodoisticDbContext>(options =>
                     options.UseSqlite(Configuration.GetConnectionString("TodoisticDbContext")));
+
+            services.AddScoped<ITodoRepository, TodoRepository>();
+            services.AddScoped<IStatusRepository, StatusRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

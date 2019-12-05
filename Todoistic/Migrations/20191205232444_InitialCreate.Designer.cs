@@ -9,7 +9,7 @@ using Todoistic.Data;
 namespace Todoistic.Migrations
 {
     [DbContext(typeof(TodoisticDbContext))]
-    [Migration("20191120212218_InitialCreate")]
+    [Migration("20191205232444_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
