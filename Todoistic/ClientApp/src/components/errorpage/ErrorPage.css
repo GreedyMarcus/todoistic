@@ -1,0 +1,41 @@
+.ErrorPage {
+  width: 700px;
+  padding: 10px 20px;
+  margin: 0.3rem;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 3px;
+
+  -webkit-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.3);
+  box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.3);
+}
+
+.ErrorPage-Title {
+  font-size: 40px;
+  font-weight: bold;
+  color: #dc3545;
+}
+
+.ErrorPage-Message {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.ErrorPage-Button {
+  background-color: #f44336;
+  color: #fff;
+  padding: 0.6em 2em;
+  margin: 1em 0;
+  border: 2px solid #f44336;
+  border-radius: 4px;
+  text-decoration: none;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.ErrorPage-Button:hover {
+  background-color: #c52f25;
+  border: 2px solid #c52f25;
+}

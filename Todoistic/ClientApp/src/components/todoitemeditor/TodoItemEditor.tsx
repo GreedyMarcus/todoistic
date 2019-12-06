@@ -7,6 +7,7 @@ import { EditableTitle } from './editabletitle/EditableTitle';
 import { EditableDescription } from './editabledescription/EditableDescription';
 import { DuePicker } from './duepicker/DuePicker';
 import { Dropdown } from './dropdown/Dropdown';
+import { ErrorPage } from '../errorpage/ErrorPage';
 import { ServiceResponse, fetchSingleTodo, updateTodo, deleteTodo, fetchStatus } from '../../services/apiService';
 import './TodoItemEditor.css';
 
@@ -128,8 +129,7 @@ export class TodoItemEditor extends Component<RouteComponentProps<any>, State> {
 
   render() {
     if (this.state.error) {
-      // TODO: Display nicer error messages
-      return (<div>Error: {this.state.error.message}</div>);
+      return <ErrorPage errorMessage={this.state.error.message} />;
     }
     else if (this.state.isLoading) {
       // TODO: Dispaly some kind of spinner
@@ -141,7 +141,7 @@ export class TodoItemEditor extends Component<RouteComponentProps<any>, State> {
       return (
         <div className="TodoItemEditor">
           <React.Fragment>
-            <Link className="TodoItemEditor-link" to="/">
+            <Link to="/">
               <span className="TodoItemEditor-close">&times;</span>
             </Link>
             <form onSubmit={this.handleSubmit}>

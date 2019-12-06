@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Todo } from '../../models/todo';
 import { Status } from '../../models/status';
 import { TodoTable } from '../todotable/TodoTable';
+import { ErrorPage } from '../errorpage/ErrorPage';
 import { ServiceResponse, fetchTodos, postTodo } from '../../services/apiService';
 import './HomeBoard.css';
 
@@ -47,8 +48,7 @@ export class HomeBoard extends Component<{}, State> {
 
   render() {
     if (this.state.error) {
-      // TODO: Display nicer error messages
-      return (<div>Error: {this.state.error.message}</div>);
+      return <ErrorPage errorMessage={this.state.error.message} />;
     }
     else if (this.state.isLoading) {
       // TODO: Dispaly some kind of spinner
