@@ -17,7 +17,7 @@ export const TodoTable: React.FC<Props> = ({ title, status, todos, addTodo }) =>
     <div className="TodoTable">
       <h1 className="TodoTable-title">{title}</h1>
       <AddTodo todoStatus={status} addTodo={addTodo} />
-      <TodoList todos={todos} />
+      <TodoList todos={todos} status={status} />
     </div>
   );
 }
