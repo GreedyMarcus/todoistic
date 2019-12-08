@@ -45,12 +45,17 @@ namespace Todoistic.Controllers
         {
             item = await todoRepository.CreateTodoItem(item);
 
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             return CreatedAtAction(nameof(GetTodoItem), new { id = item.TodoItemID }, item);
         }
 
         // PUT api/Todos/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTodoItem(int id, TodoItem item)
+        public async Task<ActionResult> UpdateTodoItem(int id, TodoItem item)
         {
             if (id != item.TodoItemID)
             {
@@ -63,7 +68,7 @@ namespace Todoistic.Controllers
 
         // DELETE api/Todos/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTodoItem(int id)
+        public async Task<ActionResult> DeleteTodoItem(int id)
         {
             int result = await todoRepository.DeleteTodoItem(id);
 
