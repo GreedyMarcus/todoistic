@@ -8,13 +8,13 @@ interface Props {
   title: string;
   description: string;
   due: Date;
-  priority: number;
+  index: number;
 }
 
-export const TodoItem: React.FC<Props> = ({ id, title, description, due, priority }) => {
+export const TodoItem: React.FC<Props> = ({ id, title, description, due, index }) => {
   return (
     <Link className="TodoItem-link" to={`/todos/${id}`}>
-      <Draggable draggableId={id.toString()} index={priority}>
+      <Draggable draggableId={id.toString()} index={index}>
           {provided => (
             <div className="TodoItem"
                  {...provided.draggableProps}

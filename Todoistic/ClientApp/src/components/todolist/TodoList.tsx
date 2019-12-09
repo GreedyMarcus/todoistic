@@ -16,15 +16,14 @@ export const TodoList: React.FC<Props> = ({ todos, status }) => {
         {provided => (
           <div className="TodoList"
                {...provided.droppableProps}
-               ref={provided.innerRef}
-          >
+               ref={provided.innerRef}>
             {todos.map((todo, index) => (
               <TodoItem key={todo.todoItemID}
                         id={todo.todoItemID}
                         title={todo.title}
                         description={todo.description}
                         due={new Date(todo.due)}
-                        priority={index}/>
+                        index={index} />
             ))}
             {provided.placeholder}
           </div>
